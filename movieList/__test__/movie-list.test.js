@@ -10,20 +10,25 @@ afterAll(async () => await driver.quit);
 test("add a movie", async () => {
   const input = await driver.findElement(By.xpath("//input"));
 
-  const searchTerm = "Tenet";
+  const searchTerm = "MHA";
 
   await input.sendKeys(searchTerm);
   const button = await driver.findElement(By.css("button"));
 
   await button.click();
 
-  const result = await driver.findElement(By.xpath("//li/span")).getText();
+  const result = await driver.findElement(By.xpath("//li/span"));
 
-  expect(result).toBe(searchTerm);
-
+  await result.click();
+  //checking cross off movie functionality
   await driver.sleep(3000);
 
   const deleteButton = await driver.findElement(By.id(`${searchTerm}`));
 
   await deleteButton.click();
+  //checking delete movie
+
+  const message = await driver.findElement(By.xpath("//main/aside"));
+  //expecting notifications
+  expect(message).toBeTruthy();
 });
